@@ -45,4 +45,8 @@ class DataBox extends Component {
   }
 }
 
+<<<<<<< HEAD
 export default Leaders;
+=======
+export default Leaders;
+>>>>>>> 8ddf3902f82881d8c04773948ef937f79cb2ae5e
