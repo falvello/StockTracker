@@ -20,6 +20,7 @@ class DataBox extends Component {
       }
     };
     
+    
     axios.request(options).then(function (response) {
       console.log(response.data);
     }).catch(function (error) {
