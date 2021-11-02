@@ -19,6 +19,7 @@
   "author": "CodesmithLLC https://github.com/CodesmithLLC <hello@codesmith.io>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "browserify": "^17.0.0",
     "express": "^4.12.3",
     "gulp": "^4.0.2",
