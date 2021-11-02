@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Row from './Row';
-import GameList from './GameList';
-import Leaders from './Leaders';
+// import Row from './Row';
+// import GameList from './GameList';
+// import Leaders from './Leaders';
 
 let gameStore = [];
 
@@ -56,7 +56,6 @@ class App extends Component {
 
     rows[row][square] = turn;
     turn = turn === 'X' ? 'O' : 'X';
-    winner = checkWin(rows);
 
     this.setState({
       rows,
@@ -69,31 +68,25 @@ class App extends Component {
     const { rows, turn, winner, gameList } = this.state;
     const handleClick = this.handleClick;
 
-    const rowElements = rows.map((letters, i) => (
-      <Row key={i} row={i} letters={letters} handleClick={handleClick} />
-    ));
+    // const rowElements = rows.map((letters, i) => (
+    //   <Row key={i} row={i} letters={letters} handleClick={handleClick} />
+    // ));
 
-    let infoDiv;
-    if (winner) {
-      let winTurn = turn === 'X' ? 'O' : 'X';
-      infoDiv = (
-        <div>
-          <div>Player {winTurn} wins with squares {winner.join(', ')}!</div>
-        </div>
-      );
-    } else {
-      infoDiv = <div>Turn: {turn}</div>;
-    }
+    // let infoDiv;
+    // if (winner) {
+    //   let winTurn = turn === 'X' ? 'O' : 'X';
+    //   infoDiv = (
+    //     <div>
+    //       <div>Player {winTurn} wins with squares {winner.join(', ')}!</div>
+    //     </div>
+    //   );
+    // } else {
+    //   infoDiv = <div>Next turn is: {turn}</div>;
+    // }
 
     return (
       <div>
-        {infoDiv}
-        <div id="board">
-          {rowElements}
-        </div>
         <button id="reset" onClick={() => this.setState(getInitialState())}>Reset board</button>
-        <GameList gameList={gameList} />
-        <Leaders />
       </div>
     );
   }
