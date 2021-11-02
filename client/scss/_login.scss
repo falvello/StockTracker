@@ -1,0 +1,32 @@
+// Import Roboto Font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+
+
+.loginContainer {
+  box-sizing: border-box;
+  // float: left;
+  // display: inline-block;
+  background-color: $color-complement;
+  //background-color: #FBE7B2;
+  line-height: 0;
+  width: 300px;
+  height: 400px;
+  flex: auto;
+  border-radius: 0px;
+  border: 0px solid white;
+  margin: 5px;
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 1.5em;
+  font-weight: 60;
+  line-height: 100px;
+  color: $color-background;
+  text-align: center;
+  cursor: cell;
+  //box-shadow: 2px 2px 0px white;
+
+  &:hover {
+    background-color: $color-complement-light;
+  }
+
+}

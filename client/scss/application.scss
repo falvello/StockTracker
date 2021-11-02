@@ -1,2 +1,11 @@
-@import '_variables';
-@import '_game';
+@import '_dashboard';
+@import '_login';
+@import '_variables.scss';
+
+body {
+  background: $color-background;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

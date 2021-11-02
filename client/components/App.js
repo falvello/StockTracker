@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 const axios = require('axios').default; 
 // import Row from './Row';
 import DataBox from './DataBox';
+import DataContainer from './DataContainer';
+import LoginContainer from './LoginContainer';
 // import Leaders from './Leaders';
 
 let gameStore = [];
 
 function getInitialState() {
   return {
+    currPage: 'login',
+    currSession: '',
     rows: [
       ['', '', ''],
       ['', '', ''],
@@ -17,27 +21,6 @@ function getInitialState() {
     winner: undefined,
     gameList: gameStore,
   };
-}
-
-function checkWin(rows) {
-  const combos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-  ];
-
-  const flattened = rows.reduce((acc, row) => acc.concat(row), []);
-
-  return combos.find(combo => (
-    flattened[combo[0]] !== '' &&
-    flattened[combo[0]] === flattened[combo[1]] &&
-    flattened[combo[1]] === flattened[combo[2]]
-  ));
 }
 
 class App extends Component {
@@ -66,28 +49,14 @@ class App extends Component {
   // }
 
   render() {
-    // const { rows, turn, winner, gameList } = this.state;
-    // const handleClick = this.handleClick;
-
-    // const rowElements = rows.map((letters, i) => (
-    //   <Row key={i} row={i} letters={letters} handleClick={handleClick} />
-    // ));
-
-    // let infoDiv;
-    // if (winner) {
-    //   let winTurn = turn === 'X' ? 'O' : 'X';
-    //   infoDiv = (
-    //     <div>
-    //       <div>Player {winTurn} wins with squares {winner.join(', ')}!</div>
-    //     </div>
-    //   );
-    // } else {
-    //   infoDiv = <div>Next turn is: {turn}</div>;
-    // }
+    // Check if page should display login or data container
+    const displayComponent = [];
+    if (this.state.currPage === 'login') displayComponent.push(<LoginContainer key="1" data=""/>)
+    //else displayComponent.push(<DataContainer className="dataContainer" key="1" data=""/>)
 
     return (
       <div>
-        <DataBox/>
+        {displayComponent}
         <button id="reset" onClick={() => this.setState(getInitialState())}>Reset board</button>
       </div>
     );
@@ -95,4 +64,3 @@ class App extends Component {
 }
 
 export default App;
-// render(<App />, document.querySelector('#root'));

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 const axios = require('axios').default; 
 //import fetch from 'isomorphic-fetch';
 
-class DataBox extends Component {
+class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,12 +33,11 @@ class DataBox extends Component {
   
   render() {
     return (
-      <div>
-        <div>Here's a Box:</div>
-        <ul>{'something'}</ul>
+      <div className="loginContainer">
+        <div>Login Container</div>
       </div>
     );
   }
 }
 
-export default DataBox;
+export default LoginContainer;
