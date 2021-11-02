@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 const axios = require('axios').default; 
 // import Row from './Row';
-// import GameList from './GameList';
+import DataBox from './DataBox';
 // import Leaders from './Leaders';
 
 let gameStore = [];
@@ -43,31 +43,31 @@ function checkWin(rows) {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    //this.handleClick = this.handleClick.bind(this);
     this.state = getInitialState();
   }
   
-  handleClick(row, square) {
-    let { turn, winner } = this.state;
-    const { rows } = this.state;
-    const squareInQuestion = rows[row][square];
+  // handleClick(row, square) {
+  //   let { turn, winner } = this.state;
+  //   const { rows } = this.state;
+  //   const squareInQuestion = rows[row][square];
 
-    if (this.state.winner) return;
-    if (squareInQuestion) return;
+  //   if (this.state.winner) return;
+  //   if (squareInQuestion) return;
 
-    rows[row][square] = turn;
-    turn = turn === 'X' ? 'O' : 'X';
+  //   rows[row][square] = turn;
+  //   turn = turn === 'X' ? 'O' : 'X';
 
-    this.setState({
-      rows,
-      turn,
-      winner,
-    });
-  }
+  //   this.setState({
+  //     rows,
+  //     turn,
+  //     winner,
+  //   });
+  // }
 
   render() {
-    const { rows, turn, winner, gameList } = this.state;
-    const handleClick = this.handleClick;
+    // const { rows, turn, winner, gameList } = this.state;
+    // const handleClick = this.handleClick;
 
     // const rowElements = rows.map((letters, i) => (
     //   <Row key={i} row={i} letters={letters} handleClick={handleClick} />
@@ -87,6 +87,7 @@ class App extends Component {
 
     return (
       <div>
+        <DataBox/>
         <button id="reset" onClick={() => this.setState(getInitialState())}>Reset board</button>
       </div>
     );
@@ -94,3 +95,4 @@ class App extends Component {
 }
 
 export default App;
+// render(<App />, document.querySelector('#root'));
