@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+const axios = require('axios').default; 
 // import Row from './Row';
 // import GameList from './GameList';
 // import Leaders from './Leaders';

@@ -4,8 +4,9 @@ import App from './components/App';
 
 // uncomment so that webpack can bundle styles
 import styles from './scss/application.scss';
-console.log('environment', process.env.NODE_ENV);
+//console.log('environment', process.env.NODE_ENV);
+
 render(
-  <App />,
-  document.getElementById('root')
+  <App />
+  //document.getElementById('root')
 );
