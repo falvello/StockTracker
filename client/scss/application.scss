@@ -1,6 +1,7 @@
 @import '_dashboard';
 @import '_login';
-@import '_variables.scss';
+@import '_marquee';
+@import '_variables';
 
 body {
   background: linear-gradient($color-background-light, $color-background);

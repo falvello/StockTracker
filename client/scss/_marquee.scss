@@ -1,0 +1,41 @@
+@import './variables.scss';
+
+
+.marquee {
+  animation : slide; 
+  animation-duration: 40s;
+  animation-direction: reverse;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  overflow: hidden;
+  overflow-x:-webkit-marquee;
+  -webkit-marquee-style: scroll;
+  //-webkit-marquee-speed: normal;
+  //-webkit-marquee-repetition: 5;
+  overflow-x: marquee-line;
+  white-space: nowrap;
+  font-size: 20px;
+  
+}
+
+.marquee::-webkit-scrollbar{
+  width: 0;
+}      
+
+@keyframes slide {
+  0% {
+    margin-left: -300%;
+  }
+
+  100% {
+    margin-left: 0%;
+  }
+  // 0% {
+  //   transform: translatex(30%)
+  // }
+
+  // 100% {
+  //   transform: translatex(100%)
+  // }
+}
+
