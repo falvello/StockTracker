@@ -3,9 +3,10 @@
 @import '_variables.scss';
 
 body {
-  background: $color-background;
+  background: linear-gradient($color-background-light, $color-background);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  cursor: cell;
 }

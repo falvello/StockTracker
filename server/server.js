@@ -2,16 +2,21 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-// uncomment the below for proxy challenge
-const leaderList = [
-  {name: 'Anna', id: 'a0'},
-  {name: 'Ben', id: 'b0'},
-  {name: 'Clara', id: 'c0'},
-  {name: 'David', id: 'd0'},
-];
+const users = require((path.join(__dirname, '../model/userDatabase')))
 
-app.get('/api/leaders', (req, res) => {
-  return res.status(200).send(leaderList);
+
+app.get('/verify', (req, res) => {
+  const username = req.query.username;
+  const password = req.query.password;
+  if (users[username].password == password) {
+    const userSessionData = users[username].data;
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.status(200).json(userSessionData);
+    }
+  else {
+    res.header("Access-Control-Allow-Origin", "*")
+    return res.status(404).send('Username or Password Incorrect');
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {

@@ -1,40 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 const axios = require('axios').default; 
 //import fetch from 'isomorphic-fetch';
+
+// Custom hook for handling input boxes
+// saves us from creating onChange handlers for them individually
+const useInput = init => {
+  const [ value, setValue ] = useState(init);
+  const onChange = e => {
+    setValue(e.target.value);
+  };
+  // return the value with the onChange function instead of setValue function
+  return [ value, onChange ];
+};
 
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: null
-    };
+    this.state = {};
   }
   
-  componentDidMount() {
-    // const requestTest = {
-    //   method: 'GET',
-    //   url: 'https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=AAPL',
-    //   params: {modules: 'defaultKeyStatistics,assetProfile'},
-    //   headers: {
-    //     'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o',
-    //   }
-    // };
-    
-    
-    // axios.request(requestTest)
-    // .then(function (response) {
-    //   console.log(response.data);
-    // })
-    // .catch(function (error) {
-    //   console.error(error);
-    // });
 
-  }
-  
   render() {
     return (
       <div className="loginContainer">
-        <div>Login Container</div>
+        <div>Stock</div>
+        <input
+        onChange={(e) => { this.props.inputUser(e.target.value) }}
+        type="text"
+        placeholder="username"
+        value={this.props.username}
+        />
+        <input
+        onChange={(e) => { this.props.inputPassword(e.target.value) }}
+        type="password"
+        placeholder="password"
+        value={this.props.password}
+        />
+        <button id="login" onClick={() => this.props.handleLogin()}>{'enter'}</button>
       </div>
     );
   }

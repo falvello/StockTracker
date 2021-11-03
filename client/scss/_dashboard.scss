@@ -9,23 +9,34 @@
   padding: 0;
 }
 
-.square {
-  box-sizing: border-box;
-  float: left;
-  // display: inline-block;
-  font-size: 0;
-  line-height: 0;
-  width: 120px;
-  height: 120px;
-  border-radius: 4px;
-  background-color: white;
-  border: 1px solid gainsboro;
-  margin: 5px;
-  font-size: 2em;
-  font-weight: 550;
-  line-height: 100px;
+.dataContainer {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-radius: $radius-fields;
   text-align: center;
-  cursor: pointer;
+}
+
+.dataBox {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  height: $data-box-height;
+  width: $data-box-width;
+  padding: 10px;
+  margin: 10px;
+  background: white;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: $radius-fields;
+  text-align: center;
 
   &:hover {
     background-color: darken(white, 15);

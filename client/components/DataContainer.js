@@ -1,41 +1,25 @@
 import React, { Component } from 'react';
 const axios = require('axios').default; 
-//import fetch from 'isomorphic-fetch';
+import DataBox from './DataBox';
 
 class DataContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: null
-    };
   }
-  
-  componentDidMount() {
-    // const requestTest = {
-    //   method: 'GET',
-    //   url: 'https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=AAPL',
-    //   params: {modules: 'defaultKeyStatistics,assetProfile'},
-    //   headers: {
-    //     'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o',
-    //   }
-    // };
-    
-    
-    // axios.request(requestTest)
-    // .then(function (response) {
-    //   console.log(response.data);
-    // })
-    // .catch(function (error) {
-    //   console.error(error);
-    // });
 
-  }
-  
+  // componentDidMount() {
+  //   this.props.getStockData();
+  // }
+
   render() {
+    const dataBoxes = [];
+    for (let i = 0; i < this.props.data.stocks.length; i++) {
+      console.log('currdataobj from datacontainer', this.props.stockDataObjs[i])
+      dataBoxes.push(<DataBox stockData={this.props.stockDataObjs[i]} key={i}/>)
+    }
     return (
-      <div>
-        <div>Here's a Box:</div>
-        <ul>{'something'}</ul>
+      <div className="dataContainer">
+        <div>{dataBoxes}</div>
       </div>
     );
   }

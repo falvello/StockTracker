@@ -7,26 +7,66 @@
   box-sizing: border-box;
   // float: left;
   // display: inline-block;
-  background-color: $color-complement;
+  //@extend: $color-complement;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: $color-complement-light;
   //background-color: #FBE7B2;
   line-height: 0;
   width: 300px;
   height: 400px;
   flex: auto;
-  border-radius: 0px;
+  border-radius: $radius-fields;
   border: 0px solid white;
   margin: 5px;
   font-family: 'Roboto', 'Thin 100', sans-serif;
-  font-size: 1.5em;
+  font-size: 1.75em;
   font-weight: 60;
   line-height: 100px;
   color: $color-background;
   text-align: center;
   cursor: cell;
+  padding: 40px;
   //box-shadow: 2px 2px 0px white;
 
   &:hover {
-    background-color: $color-complement-light;
+    background: linear-gradient($color-complement-light, $color-complement);
   }
 
+}
+
+input {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  height: $input-box-height;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  background: white;
+  border: none;
+  display: flex;
+  border-radius: $radius-fields;
+  text-align: center;
+}
+
+button {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  height: $input-box-height;
+  padding: 10px;
+  margin: 20px;
+  width: 100px;
+  background: $color-background-light;
+  border: none;
+  display: flex;
+  border-radius: $radius-fields;
+  align-items: center;
+  flex-direction: column;
+  &:hover {
+    background: $color-background;
+    cursor: cell;
+  }
 }

@@ -1,3 +1,11 @@
 $color-complement: #353839;
 $color-complement-light: lighten($color-complement, 10);
-$color-background: #FCD667
+$color-background: #78857a;
+$color-background-light: lighten($color-background, 22);
+$color-accent: #FCD667;
+
+$radius-fields: 0px;
+$input-box-height: 45px;
+
+$data-box-height: 400px;
+$data-box-width: 400px;
