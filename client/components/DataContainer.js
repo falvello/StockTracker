@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 const axios = require('axios').default; 
-import DataBox from './DataBox';
+import DataBoxScroll from './DataBoxScroll';
+
 
 class DataContainer extends Component {
   constructor(props) {
     super(props);
   }
 
-  // componentDidMount() {
-  //   this.props.getStockData();
-  // }
-
   render() {
-    const dataBoxes = [];
-    for (let i = 0; i < this.props.data.stocks.length; i++) {
-      console.log('currdataobj from datacontainer', this.props.stockDataObjs[i])
-      dataBoxes.push(<DataBox stockData={this.props.stockDataObjs[i]} key={i}/>)
-    }
+    const dataBoxScroll = [
+      <DataBoxScroll 
+      stockData={this.props.stockDataObjs} 
+      stockGraphs={this.props.stockGraphObjs} 
+      key={1}/>
+    ]
+
     return (
       <div className="dataContainer">
-        <div>{dataBoxes}</div>
+        <div className="leftScroll">{"↫"}</div>
+        {dataBoxScroll}
+        <div className="rightScroll">{"↬"}</div>
       </div>
     );
   }

@@ -1,45 +1,109 @@
 @import './variables.scss';
 
-#board {
-  width: 390px;
-  height: 390px;
-  // border: 5px solid $lightOrange;
-  // background-color: $darkBlue;
-  margin: 20px auto;
-  padding: 0;
-}
 
 .dataContainer {
-  font-family: 'Roboto', 'Thin 100', sans-serif;
   font-size: 20px !important;
-  font-weight: 60;
-  border: none;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
   border-radius: $radius-fields;
-  text-align: center;
 }
+
+.dashboardHeader {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 40px !important;
+  font-weight: 60;
+  color: $color-accent;
+  padding-left: 3vw;
+  padding-bottom: 2vh;
+  border: none;
+  height: 16vh;
+  width: 93vw !important;
+  background-color: transparentize($color-complement-light, 0.7);
+  display: flex;
+  margin-bottom: 20px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: auto;
+  border-radius: $radius-fields;
+}
+
+.dataBoxScroll {
+  border: none;
+  height: 72vh;
+  width: 90vw !important;
+  background-color: transparentize($color-complement-light, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: auto;
+  border-radius: $radius-fields;
+}
+
+.dataBoxScroll::-webkit-scrollbar{
+  width: 0;
+}      
 
 .dataBox {
   font-family: 'Roboto', 'Thin 100', sans-serif;
-  font-size: 20px !important;
+  font-size: 17px !important;
   font-weight: 60;
+  line-height: 23px;
   height: $data-box-height;
-  width: $data-box-width;
-  padding: 10px;
+  min-width: $data-box-width;
+  padding: 20px;
   margin: 10px;
   background: white;
   border: none;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-end;
   border-radius: $radius-fields;
   text-align: center;
 
   &:hover {
     background-color: darken(white, 15);
   }
+}
 
+
+.lineGraph {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  height: 250px;
+  min-width: 350px;
+  padding: 10px;
+  margin: 10px;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    background-color: darken(white, 15);
+  }
+}
+
+.leftScroll {
+  background-color: transparentize($color-complement-light, 0.7);
+  font-size: 30px !important;
+  height: 72vh;
+  min-width: 3vw;
+  //padding-left: 5px;
+  color: $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rightScroll {
+  background-color: transparentize($color-complement-light, 0.7);
+  font-size: 30px !important;
+  height: 72vh;
+  min-width: 3vw;
+  //padding-left: 5px;
+  //padding-right: 5px;
+  color: $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

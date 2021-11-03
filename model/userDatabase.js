@@ -3,7 +3,7 @@ const users = {
    password: 'go',
    data: {
      id : '1',
-     stocks: ['AAPL', 'MSFT', 'TSLA']
+     stocks: ['AAPL', 'TSLA', 'MSFT', 'CUK', 'GME']
    }
  }
 }

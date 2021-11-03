@@ -1,45 +1,35 @@
 import React, { Component } from 'react';
 const axios = require('axios').default; 
+import LineGraph from './LineGraph';
 //import fetch from 'isomorphic-fetch';
 
 class DataBox extends Component {
   constructor(props) {
     super(props);
-    //this.getStockData = this.getStockData.bind(this);
-    //this.stockData;
   }
   
-  // getStockData() {
-  //   const requestTest = {
-  //     method: 'GET',
-  //     url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${this.props.ticker}`,
-  //     params: {modules: 'defaultKeyStatistics,assetProfile'},
-  //     headers: {
-  //       'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o',
-  //     }
-  //   };
-    
-    
-  //   axios.request(requestTest)
-  //   .then(function (response) {
-  //     console.log(response.data);
-  //     this.stockData = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.error(error);
-  //   });
-  // }
-
   componentDidMount() {
   }
   
+
   render() {
-    console.log(this.props.stockData)
+    console.log('stock data from databox', this.props.stockData)
+    console.log('graph data from databox', this.props.stockGraph); 
+    console.log('closeArr', this.props.stockGraph.closeArr)
+    // Find shortest display name:
+    const shortName = this.props.stockData.shortName;
+    const displayName = this.props.stockData.displayName;
+    let cardTitle = shortName;
+    if (shortName.length > displayName.length) cardTitle = displayName;
+
     return (
       <div className='dataBox'>
-        <div> {`Stock: ${this.props.stockData.displayName}`}</div>
-        <div>{`Ask: ${this.props.stockData.ask}`} </div> 
-        <div> {`Analyst Rating: ${this.props.stockData.averageAnalystRating}`}</div> 
+        <h1> {`${cardTitle}`}</h1>
+        <h2>{`$${this.props.stockData.ask}`} </h2> 
+        <div> {`Fifty day average: `}{`$${(Math.round((this.props.stockData.fiftyDayAverage + Number.EPSILON) * 100)) / 100}`}</div> 
+        <div> {`Fifty two week high: `}{`$${(Math.round((this.props.stockData.fiftyTwoWeekHigh + Number.EPSILON) * 100)) / 100}`}</div> 
+        <div> {`Fifty two week low: `}{`$${(Math.round((this.props.stockData.fiftyTwoWeekLow + Number.EPSILON) * 100)) / 100}`}</div> 
+        <LineGraph lineGraphInfo={this.props.stockGraph} key="0"/>
       </div>
     );
   }
