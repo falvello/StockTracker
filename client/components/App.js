@@ -20,7 +20,6 @@ function getInitialState() {
     username: '',
     password:'',
     currPage: 'login',
-    newStock: '',
     sessionData: '',
     stockDataObjs: [],
     stockGraphObjs: [],
@@ -32,9 +31,8 @@ function getInitialState() {
     //   id : '1',
     //   stocks: ['AAPL', 'MSFT', 'TSLA', 'CUK']
     // },
-    //stockDataObjs: [{}],
-    //stockGraphObjs: [{}],
-    // tickerTrends: [,,,]
+    // stockDataObjs: [{},{},{}, {}],
+    // stockGraphObjs: [{},{},{}, {}],
 
   };
 }
@@ -46,11 +44,7 @@ class App extends Component {
     this.state = getInitialState();
     this.inputPassword = this.inputPassword.bind(this);
     this.inputUser = this.inputUser.bind(this);
-    this.inputStock = this.inputStock.bind(this);
-
-    // Methods to interact with database
     this.handleLogin = this.handleLogin.bind(this);
-    this.addNewStock = this.addNewStock.bind(this);
 
     // Methods to fetch data from Yahoo API
     this.getStockData = this.getStockData.bind(this);
@@ -63,18 +57,6 @@ class App extends Component {
   }
 
   componentDidMount(){}
-
-  inputPassword(val){
-    this.setState({password : val})
-  }
-
-  inputUser(val){
-    this.setState({username : val})
-  }
-
-  inputStock(val) {
-    this.setState({newStock : val})
-  }
 
   handleLogin(){
     const sessiondata = undefined;
@@ -92,8 +74,11 @@ class App extends Component {
     .then(res => {
       // TODO: Uncomment below after test
       const sessionData = res.data;
+      // const sessionData = {
+      //     id : '1',
+      //     stocks: ['AAPL']
+      //   }
       this.setState({sessionData}, this.getStockData)
-
     })
     .catch(function (error) {
       console.error(error);
@@ -101,9 +86,14 @@ class App extends Component {
 
   }
 
-  // addNewStock() {
-  //   //console.log('desired add', this.state.newStock)
-  // }
+  inputPassword(val){
+    this.setState({password : val})
+  }
+
+  inputUser(val){
+    this.setState({username : val})
+  }
+
   getStockData() {
     const tickerArr = this.state.sessionData.stocks;
     const requestArr = []
@@ -131,8 +121,9 @@ class App extends Component {
       console.error(error);
     });
     // TODO: Uncomment temporary state to avoid unnecessary fetches
-    // const stockDataObjs = [{}];
-    // this.setState({stockDataObjs}, this.getGraphData)
+    // const stockDataObjs = [{},{},{}];
+    // const currPage = 'dashboard';
+    // this.setState({stockDataObjs, currPage})
   }
 
   getGraphData() {
@@ -172,9 +163,9 @@ class App extends Component {
       console.error(error);
     });
     // TODO: Uncomment temporary state to avoid unnecessary fetches
-    // const stockGraphObjs = [{}];
+    // const stockDataObjs = [{},{},{}];
     // const currPage = 'dashboard';
-    // this.setState({stockGraphObjs, currPage})
+    // this.setState({stockDataObjs, currPage})
   }
 
   getTrending() {
@@ -270,10 +261,7 @@ class App extends Component {
         <DashboardHeader 
         key="0"
         user={this.state.username}
-        tickerData={this.state.tickerTrends}
-        inputStock={this.inputStock}
-        addNewStock={this.addNewStock}
-        />
+        tickerData={this.state.tickerTrends}/>
       )
       displayComponent.push(
         <DataContainer 

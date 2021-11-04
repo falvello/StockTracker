@@ -12,7 +12,7 @@ class LoginText extends Component {
   render() {
     return (
       <span className="loginText">
-        Portfolio <span><h3>is a web based application that allows you to track your favorite stocks and keep up to date with today's trends </h3></span>
+        Portfolio <span><h3>is a web based application that allows you to track all your favorite stocks and keep up to date with trending stocks </h3></span>
       </span>
     );
   }

@@ -19,8 +19,6 @@
   display: flex;
   justify-content: space-between;
   width: 70wh;
-  cursor: url('../assets/dollar-small.png'), cell;
-  
 }
 
 .loginBox {
@@ -42,7 +40,6 @@
   line-height: 100px;
   color: $color-background;
   text-align: center;
-  //cursor: cell;
   cursor: cell;
   padding: 40px;
 

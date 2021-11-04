@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const writeLocation = `${__dirname}/users.json`
 let usersObject = JSON.parse(fs.readFileSync(writeLocation))
-let userList = {}
+
 /*Example content os users.json
 {
   jemmy : {
