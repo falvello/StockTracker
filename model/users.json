@@ -1,6 +1,6 @@
 {
-  "jemmy": {
-    "password": "go",
+  "anna": {
+    "password": "falvello",
     "data": {
       "id": "1",
       "stocks": [
@@ -12,7 +12,7 @@
       ]
     }
   },
-  "anna": {
+  "annie": {
     "password": "falvello",
     "data": {
       "id": "1",

@@ -1,6 +1,6 @@
 const users = {
- jemmy : {
-   password: 'go',
+ anna : {
+   password: 'falvello',
    data: {
      id : '1',
      stocks: ['AAPL', 'MSFT']

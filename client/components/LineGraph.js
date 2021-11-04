@@ -14,12 +14,10 @@ class LineGraph extends Component {
     const daysArr = [];
     for (let i = 0; i < unformattedArr.length; i++) {
       const date = new Date(unformattedArr[i] * 1000)
-      console.log('date attempts', date)
-      const day = date.getDay(); // Extract day.
+      const day = date.getDate(); // Extract day.
       const month = date.getMonth() + 1; // Extract month.
-      daysArr.push(`${day}/${month}`)
+      daysArr.push(`${month}/${day}`)
     }
-    console.log('daysarray from graph', daysArr)
 
     //console.log(this.props.lineGraphInfo)
     const graphInfo = {
