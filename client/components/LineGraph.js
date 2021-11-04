@@ -9,9 +9,21 @@ class LineGraph extends Component {
   }
   
   render() {
+    // Convert this.props.timeArr to usable data. Entries come formatted in ms, ex: 1623139200
+    const unformattedArr = this.props.lineGraphInfo.timeArr;
+    const daysArr = [];
+    for (let i = 0; i < unformattedArr.length; i++) {
+      const date = new Date(unformattedArr[i] * 1000)
+      console.log('date attempts', date)
+      const day = date.getDay(); // Extract day.
+      const month = date.getMonth() + 1; // Extract month.
+      daysArr.push(`${day}/${month}`)
+    }
+    console.log('daysarray from graph', daysArr)
+
     //console.log(this.props.lineGraphInfo)
     const graphInfo = {
-      labels: [1,2,3,4,5,6,7,8,9,10,11,12,13],
+      labels: daysArr,
       datasets: [
         {
           label: '',

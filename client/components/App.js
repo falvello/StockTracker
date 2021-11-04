@@ -5,6 +5,7 @@ const axios = require('axios').default;
 import DashboardHeader from './DashboardHeader';
 import DataContainer from './DataContainer';
 import LoginContainer from './LoginContainer';
+import LoginText from './LoginText';
 
 
 // const users = {
@@ -19,6 +20,7 @@ function getInitialState() {
     username: '',
     password:'',
     currPage: 'login',
+    newStock: '',
     sessionData: '',
     stockDataObjs: [],
     stockGraphObjs: [],
@@ -30,8 +32,9 @@ function getInitialState() {
     //   id : '1',
     //   stocks: ['AAPL', 'MSFT', 'TSLA', 'CUK']
     // },
-    // stockDataObjs: [{},{},{}, {}],
-    // stockGraphObjs: [{},{},{}, {}],
+    //stockDataObjs: [{}],
+    //stockGraphObjs: [{}],
+    // tickerTrends: [,,,]
 
   };
 }
@@ -43,7 +46,11 @@ class App extends Component {
     this.state = getInitialState();
     this.inputPassword = this.inputPassword.bind(this);
     this.inputUser = this.inputUser.bind(this);
+    this.inputStock = this.inputStock.bind(this);
+
+    // Methods to interact with database
     this.handleLogin = this.handleLogin.bind(this);
+    this.addNewStock = this.addNewStock.bind(this);
 
     // Methods to fetch data from Yahoo API
     this.getStockData = this.getStockData.bind(this);
@@ -56,6 +63,18 @@ class App extends Component {
   }
 
   componentDidMount(){}
+
+  inputPassword(val){
+    this.setState({password : val})
+  }
+
+  inputUser(val){
+    this.setState({username : val})
+  }
+
+  inputStock(val) {
+    this.setState({newStock : val})
+  }
 
   handleLogin(){
     const sessiondata = undefined;
@@ -73,11 +92,8 @@ class App extends Component {
     .then(res => {
       // TODO: Uncomment below after test
       const sessionData = res.data;
-      // const sessionData = {
-      //     id : '1',
-      //     stocks: ['AAPL']
-      //   }
       this.setState({sessionData}, this.getStockData)
+
     })
     .catch(function (error) {
       console.error(error);
@@ -85,14 +101,9 @@ class App extends Component {
 
   }
 
-  inputPassword(val){
-    this.setState({password : val})
-  }
-
-  inputUser(val){
-    this.setState({username : val})
-  }
-
+  // addNewStock() {
+  //   //console.log('desired add', this.state.newStock)
+  // }
   getStockData() {
     const tickerArr = this.state.sessionData.stocks;
     const requestArr = []
@@ -120,9 +131,8 @@ class App extends Component {
       console.error(error);
     });
     // TODO: Uncomment temporary state to avoid unnecessary fetches
-    // const stockDataObjs = [{},{},{}];
-    // const currPage = 'dashboard';
-    // this.setState({stockDataObjs, currPage})
+    // const stockDataObjs = [{}];
+    // this.setState({stockDataObjs}, this.getGraphData)
   }
 
   getGraphData() {
@@ -144,6 +154,7 @@ class App extends Component {
     .then(axios.spread((...responses) => {
       const stockGraphObjs = []
       for (let i = 0; i < responses.length; i++) {
+        const timesArr = responses[i].data.chart.result[0].timestamp;
         const quotesObj = responses[i].data.chart.result[0].indicators.quote[0];
         stockGraphObjs.push(
           {
@@ -152,6 +163,7 @@ class App extends Component {
             lowArr: quotesObj.low,
             openArr: quotesObj.open,
             volumeArr: quotesObj.volume,
+            timeArr: timesArr, // Will be an array with entries formatted in ms, ex: 1623139200
           });
       }
       this.setState({stockGraphObjs}, this.getTrending)
@@ -160,9 +172,9 @@ class App extends Component {
       console.error(error);
     });
     // TODO: Uncomment temporary state to avoid unnecessary fetches
-    // const stockDataObjs = [{},{},{}];
+    // const stockGraphObjs = [{}];
     // const currPage = 'dashboard';
-    // this.setState({stockDataObjs, currPage})
+    // this.setState({stockGraphObjs, currPage})
   }
 
   getTrending() {
@@ -242,22 +254,26 @@ class App extends Component {
   render() {
     // Check if page should display login or data container
     const displayComponent = [];
-    if (this.state.currPage === 'login') displayComponent.push(
-    <LoginContainer 
-      username={this.props.username} 
-      password={this.props.password}
-      handleLogin={this.handleLogin}
-      inputPassword={this.inputPassword}
-      inputUser={this.inputUser}
-      key="1" 
-      data=""/>)
-
+    if (this.state.currPage === 'login') {
+      displayComponent.push(
+      <LoginContainer 
+        username={this.props.username} 
+        password={this.props.password}
+        handleLogin={this.handleLogin}
+        inputPassword={this.inputPassword}
+        inputUser={this.inputUser}
+        key="1" 
+        data=""/>)
+    }
     else if (this.state.currPage === 'dashboard') {
       displayComponent.push(
         <DashboardHeader 
         key="0"
         user={this.state.username}
-        tickerData={this.state.tickerTrends}/>
+        tickerData={this.state.tickerTrends}
+        inputStock={this.inputStock}
+        addNewStock={this.addNewStock}
+        />
       )
       displayComponent.push(
         <DataContainer 
@@ -270,7 +286,7 @@ class App extends Component {
       )
       }
     return (
-      <div>
+      <div className="application">
         {displayComponent}
       </div>
     );

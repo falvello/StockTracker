@@ -3,6 +3,7 @@
 @import '_marquee';
 @import '_variables';
 
+
 body {
   background: linear-gradient($color-background-light, $color-background);
   display: flex;
@@ -26,5 +27,13 @@ h2 {
   font-size: 20px !important;
   line-height: 25px;
   font-weight: normal !important;
+  color: $color-complement-light;
+}
+
+h3 {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 23px;
+  font-weight: 60;
+  line-height: 30px;
   color: $color-complement-light;
 }

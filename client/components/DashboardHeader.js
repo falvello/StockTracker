@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 const axios = require('axios').default; 
 import Ticker from './Ticker';
-//import fetch from 'isomorphic-fetch';
+import DashboardActions from './DashboardActions';
 
 class DashboardHeader extends Component {
   constructor(props) {
@@ -16,7 +16,10 @@ class DashboardHeader extends Component {
     return (
       <div className='dashboardHeader'>
         <Ticker tickerData={this.props.tickerData}/>
-        <div className='dashboardTitle'> {`Welcome, ${this.props.user}`}</div>
+        <DashboardActions
+        inputStock={this.props.inputStock}
+        addNewStock={this.props.addNewStock}
+        />
       </div>
     );
   }

@@ -1,8 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 const axios = require('axios').default; 
 //import fetch from 'isomorphic-fetch';
-import LoginBox from './LoginBox';
-import LoginText from './LoginText';
 
 // Custom hook for handling input boxes
 // saves us from creating onChange handlers for them individually
@@ -15,7 +13,7 @@ const useInput = init => {
   return [ value, onChange ];
 };
 
-class LoginContainer extends Component {
+class LoginBox extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,20 +22,24 @@ class LoginContainer extends Component {
 
   render() {
     return (
-      <div className="loginContainer">
-        <LoginText/>
-        <LoginBox
-        username={this.props.username} 
-        password={this.props.password}
-        handleLogin={this.props.handleLogin}
-        inputPassword={this.props.inputPassword}
-        inputUser={this.props.inputUser}
-        key="1" 
-        data=""
+      <div className="loginBox">
+        <div>log in / sign up</div>
+        <input
+        onChange={(e) => { this.props.inputUser(e.target.value) }}
+        type="text"
+        placeholder="username"
+        value={this.props.username}
         />
+        <input
+        onChange={(e) => { this.props.inputPassword(e.target.value) }}
+        type="password"
+        placeholder="password"
+        value={this.props.password}
+        />
+        <button id="login" onClick={() => this.props.handleLogin()}>{'enter'}</button>
       </div>
     );
   }
 }
 
-export default LoginContainer;
+export default LoginBox;

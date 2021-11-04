@@ -13,9 +13,6 @@ class DataBox extends Component {
   
 
   render() {
-    console.log('stock data from databox', this.props.stockData)
-    console.log('graph data from databox', this.props.stockGraph); 
-    console.log('closeArr', this.props.stockGraph.closeArr)
     // Find shortest display name:
     const shortName = this.props.stockData.shortName;
     const displayName = this.props.stockData.displayName;

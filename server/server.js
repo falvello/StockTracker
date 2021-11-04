@@ -2,20 +2,37 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+const db = require((path.join(__dirname, '../model/userFunctions')))
 const users = require((path.join(__dirname, '../model/userDatabase')))
 
 
 app.get('/verify', (req, res) => {
   const username = req.query.username;
   const password = req.query.password;
-  if (users[username].password == password) {
-    const userSessionData = users[username].data;
+
+  // With Object Reference
+  // if (users[username].password == password) {
+  //   const userSessionData = users[username].data;
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   return res.status(200).json(userSessionData);
+  //   }
+  
+  // With JSON file database
+  const userData = db.findUser(username, password);
+  if (userData) {
     res.header("Access-Control-Allow-Origin", "*");
-    return res.status(200).json(userSessionData);
-    }
+    return res.status(200).json(userData);
+  }
+
   else {
-    res.header("Access-Control-Allow-Origin", "*")
-    return res.status(404).send('Username or Password Incorrect');
+    // TODO: Base option: immediate sign up if user doesnt exist.
+    const userData = db.addUser(username, password)
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.status(200).json(userData);
+
+    // TODO: Improved option to return error once proper sign up has been set up
+    // res.header("Access-Control-Allow-Origin", "*")
+    // return res.status(404).send('Username or Password Incorrect');
   }
 });
 
