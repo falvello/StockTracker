@@ -11,6 +11,7 @@ class DataContainer extends Component {
   render() {
     const dataBoxScroll = [
       <DataBoxScroll 
+      deleteStock={this.props.deleteStock}
       stockData={this.props.stockDataObjs} 
       stockGraphs={this.props.stockGraphObjs} 
       key={1}/>

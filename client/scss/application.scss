@@ -2,6 +2,7 @@
 @import '_login';
 @import '_marquee';
 @import '_variables';
+@import '_stockcard';
 
 
 body {
@@ -18,7 +19,7 @@ h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 28px !important;
   font-weight: normal !important;
-  color: $color-complement-light;
+  //color: $color-complement-light;
   line-height: 30px;
 }
 

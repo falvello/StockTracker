@@ -19,6 +19,7 @@ class DashboardHeader extends Component {
         <DashboardActions
         user={this.props.user}
         inputStock={this.props.inputStock}
+        newStock={this.props.newStock}
         addNewStock={this.props.addNewStock}
         />
       </div>

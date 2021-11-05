@@ -16,10 +16,14 @@ const useInput = init => {
 class LoginBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.checkForEnter = this.checkForEnter.bind(this);
   }
   
-
+  checkForEnter(e) {
+    if (e.keyCode == 13) {
+      this.props.handleLogin();
+    }
+  }
   render() {
     return (
       <div className="loginBox">
@@ -35,8 +39,9 @@ class LoginBox extends Component {
         type="password"
         placeholder="password"
         value={this.props.password}
+        onKeyDown={(e) => {this.checkForEnter(e)}}
         />
-        <button id="login" onClick={() => this.props.handleLogin()}>{'enter'}</button>
+        <button id="loginButton" onClick={() => this.props.handleLogin()}>{'enter'}</button>
       </div>
     );
   }

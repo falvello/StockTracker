@@ -9,7 +9,7 @@ class LineGraph extends Component {
   }
   
   render() {
-    // Convert this.props.timeArr to usable data. Entries come formatted in ms, ex: 1623139200
+    // Convert this.props.timeArr to usable data. Entries come formatted in s, ex: 1623139200
     const unformattedArr = this.props.lineGraphInfo.timeArr;
     const daysArr = [];
     for (let i = 0; i < unformattedArr.length; i++) {
@@ -19,7 +19,6 @@ class LineGraph extends Component {
       daysArr.push(`${month}/${day}`)
     }
 
-    //console.log(this.props.lineGraphInfo)
     const graphInfo = {
       labels: daysArr,
       datasets: [
@@ -53,7 +52,7 @@ class LineGraph extends Component {
           legend: {
               maxWidth: 0,
               labels: {boxWidth: 0, boxHeight: 0, color: 'rgba(0,0,0,1)'},
-              title: {fisplay: false}
+              title: {display: false}
            }
         }}
 

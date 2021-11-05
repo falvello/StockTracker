@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 const axios = require('axios').default; 
 
 // import Row from './Row';
@@ -21,10 +22,10 @@ function getInitialState() {
     password:'',
     currPage: 'login',
     newStock: '',
-    sessionData: '',
-    stockDataObjs: [],
-    stockGraphObjs: [],
-    tickerTrends: [],
+    // sessionData: '',
+    // stockDataObjs: [],
+    // stockGraphObjs: [],
+    // tickerTrends: [],
 
     // TODO: Uncomment temporary state to avoid unnecessary fetches
     //currPage: 'dashboard',
@@ -39,11 +40,19 @@ function getInitialState() {
   };
 }
 
+
+
 class App extends Component {
   constructor(props) {
     super(props);
     // Methods for log in
     this.state = getInitialState();
+
+    this.props.sessionData = '';
+    this.props.stockDataObjs = [];
+    this.props.stockGraphObjs = [];
+    this.props.tickerTrends = [];
+
     this.inputPassword = this.inputPassword.bind(this);
     this.inputUser = this.inputUser.bind(this);
     this.inputStock = this.inputStock.bind(this);
@@ -51,6 +60,7 @@ class App extends Component {
     // Methods to interact with database
     this.handleLogin = this.handleLogin.bind(this);
     this.addNewStock = this.addNewStock.bind(this);
+    this.deleteStock = this.deleteStock.bind(this);
 
     // Methods to fetch data from Yahoo API
     this.getStockData = this.getStockData.bind(this);
@@ -62,7 +72,6 @@ class App extends Component {
     this.goToHome = this.goToHome.bind(this);  
   }
 
-  componentDidMount(){}
 
   inputPassword(val){
     this.setState({password : val})
@@ -80,7 +89,7 @@ class App extends Component {
     const sessiondata = undefined;
     const currPage = undefined;
     const stockData = undefined;
-    const getUser = {
+    const getUserRequest = {
       method: 'GET',
       url: 'http://localhost:3000/verify',
 
@@ -88,11 +97,19 @@ class App extends Component {
       params: {username: `${this.state.username}`, password: `${this.state.password}`}
       //params: {username: 'jemmy', password: 'go'}
     }
-    axios.request(getUser)
+    axios.request(getUserRequest)
     .then(res => {
       // TODO: Uncomment below after test
       const sessionData = res.data;
-      this.setState({sessionData}, this.getStockData)
+      this.props.sessionData = sessionData;
+      return this.getTrending();
+
+      // this.setState({sessionData}, unstable_batchedUpdates(()=> {
+      //   this.getStockData(sessionData);
+      //   this.getGraphData(sessionData);
+      //   this.getTrending();
+      //   this.goToDashboard();
+      // }))
 
     })
     .catch(function (error) {
@@ -102,12 +119,41 @@ class App extends Component {
   }
 
   addNewStock() {
-    console.log('desired add', this.state.newStock)
-  }
-  getStockData() {
-    const tickerArr = this.state.sessionData.stocks;
-    const requestArr = []
+    const addStockRequest = {
+      method: 'GET',
+      url: 'http://localhost:3000/addstock',
+      params: {username: `${this.state.username}`, stock: `${this.state.newStock}`}
+    }
 
+    axios.request(addStockRequest)
+    .then(res => {
+      const sessionData = res.data;
+      const newStock = '';
+      this.props.sessionData = sessionData;
+      this.getStockData();
+    })
+  }
+
+  deleteStock(stockSymbol) {
+    console.log("deletingstock")
+    const deleteStockRequest = {
+      method: 'POST',
+      url: 'http://localhost:3000/deletestock',
+      params: {username: `${this.state.username}`, symbol: stockSymbol}
+    }
+
+    axios.request(deleteStockRequest)
+    .then(res => {
+      const sessionData = res.data;
+      this.props.sessionData = sessionData;
+      this.getStockData();
+    })
+  }
+
+  getStockData() {
+    const tickerArr = this.props.sessionData.stocks;
+    const requestArr = []
+    
     for (let i = 0; i < tickerArr.length; i++) {
     const requestInfo = {
       method: 'GET',
@@ -119,13 +165,17 @@ class App extends Component {
     };
     requestArr.push(axios.request(requestInfo))
     }
+    console.log('stock requests', requestArr)
     axios.all(requestArr)
     .then(axios.spread((...responses) => {
+      console.log('response from stock', responses);
       const stockDataObjs = []
       for (let i = 0; i < responses.length; i++) {
         stockDataObjs.push(responses[i].data.quoteResponse.result[0]);
       }
-      this.setState({stockDataObjs}, this.getGraphData)
+      console.log('stockdataobjs', stockDataObjs)
+      this.props.stockDataObjs = stockDataObjs;
+      this.getGraphData();
     }))
     .catch(function (error) {
       console.error(error);
@@ -136,7 +186,7 @@ class App extends Component {
   }
 
   getGraphData() {
-    const tickerArr = this.state.sessionData.stocks;
+    const tickerArr = this.props.sessionData.stocks;
     const requestArr = []
 
     for (let i = 0; i < tickerArr.length; i++) {
@@ -166,7 +216,8 @@ class App extends Component {
             timeArr: timesArr, // Will be an array with entries formatted in ms, ex: 1623139200
           });
       }
-      this.setState({stockGraphObjs}, this.getTrending)
+      this.props.stockGraphObjs = stockGraphObjs;
+      this.goToDashboard();
     }))
     .catch(function (error) {
       console.error(error);
@@ -178,66 +229,68 @@ class App extends Component {
   }
 
   getTrending() {
-    const requestInfo = {
-      method: 'GET',
-      url: `https://yfapi.net/v1/finance/trending/US`,
-      params: {modules: 'defaultKeyStatistics,assetProfile'},
-      headers: {
-        'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o',
-      }
-    };
+    // const requestInfo = {
+    //   method: 'GET',
+    //   url: `https://yfapi.net/v1/finance/trending/US`,
+    //   params: {modules: 'defaultKeyStatistics,assetProfile'},
+    //   headers: {
+    //     'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o',
+    //   }
+    // };
 
-    axios.request(requestInfo)
-    .then(trendingResults => {
-      const trendingObjArr = trendingResults.data.finance.result[0].quotes;
-      const trendingTickerArr = trendingObjArr.map(el => el.symbol);
-      const requestArr = []
-      for (let i = 0; i < trendingTickerArr.length; i++) {
-        const requestInfo = {
-          method: 'GET',
-          url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${trendingTickerArr[i]}`,
-          params: {modules: 'defaultKeyStatistics,assetProfile'},
-          headers: {'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o'}
-        };
-        requestArr.push(axios.request(requestInfo))
-      }
-      axios.all(requestArr)
-        .then(axios.spread((...responses) => {
-          const tickerTrends = [];
-          for (let i = 0; i < responses.length; i++) {
-              tickerTrends.push([
-              `${trendingTickerArr[i].toUpperCase()}.: `,
-              `CHANGE: ${(Math.round((responses[i].data.quoteResponse.result[0].regularMarketChangePercent + Number.EPSILON) * 100)) / 100}% `,
-              `VAL: $${responses[i].data.quoteResponse.result[0].ask} `]);
-            }
-            console.log(tickerTrends)
-          this.setState({tickerTrends}, this.goToDashboard)
-        }))
-      }).catch(error => {
-      console.error(error);
-    });
+    // axios.request(requestInfo)
+    // .then(trendingResults => {
+    //   const trendingObjArr = trendingResults.data.finance.result[0].quotes;
+    //   const trendingTickerArr = trendingObjArr.map(el => el.symbol);
+    //   const requestArr = []
+    //   for (let i = 0; i < trendingTickerArr.length; i++) {
+    //     const requestInfo = {
+    //       method: 'GET',
+    //       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${trendingTickerArr[i]}`,
+    //       params: {modules: 'defaultKeyStatistics,assetProfile'},
+    //       headers: {'x-api-key': 'grS5nd38br94QBPnU0g6Z2F7Moc9n98I7nk3ar1o'}
+    //     };
+    //     requestArr.push(axios.request(requestInfo))
+    //   }
+    //   axios.all(requestArr)
+    //     .then(axios.spread((...responses) => {
+    //       const tickerTrends = [];
+    //       for (let i = 0; i < responses.length; i++) {
+    //           tickerTrends.push([
+    //           `${trendingTickerArr[i].toUpperCase()}.: `,
+    //           `CHANGE: ${(Math.round((responses[i].data.quoteResponse.result[0].regularMarketChangePercent + Number.EPSILON) * 100)) / 100}% `,
+    //           `VAL: $${responses[i].data.quoteResponse.result[0].ask} `]);
+    //         }
+    //       this.props.tickerTrends = tickerTrends;
+    //       return this.getStockData();
+    //     }))
+    //   }).catch(error => {
+    //   console.error(error);
+    // });
     // TODO: Uncomment temporary state to avoid unnecessary fetches
-    // let tickerTrends = [['Z.: ', 'CHANGE: -24.92% ', 'VAL: $65.53 ']
-    // ,['BIRD.: ', 'CHANGE: 92.6% ', 'VAL: $27.94 ']
-    // ,['BBBY.: ', 'CHANGE: 15.22% ', 'VAL: $19.31 ']
-    // ,['ATVI.: ', 'CHANGE: -14.06% ', 'VAL: $66.72 ']
-    // ,['QS.: ', 'CHANGE: 8.69% ', 'VAL: $31.61 ']
-    // ,['IRTC.: ', 'CHANGE: 59.01% ', 'VAL: $122.5 ']
-    // ,['PTPI.: ', 'CHANGE: 64.57% ', 'VAL: $3.02 ']
-    // ,['TDOC.: ', 'CHANGE: 4.66% ', 'VAL: $154.29 ']
-    // ,['GME.: ', 'CHANGE: 5.48% ', 'VAL: $218 ']
-    // ,['SKLZ.: ', 'CHANGE: 7.32% ', 'VAL: $12.78 ']
-    // ,['NNOX.: ', 'CHANGE: 13.13% ', 'VAL: $27.05 ']
-    // ,['F.: ', 'CHANGE: 3.44% ', 'VAL: $18.64 ']
-    // ,['APPS.: ', 'CHANGE: -19.01% ', 'VAL: $73.74 ']
-    // ,['QCOM.: ', 'CHANGE: 2.4% ', 'VAL: $138.74 ']
-    // ,['AMZN.: ', 'CHANGE: 2.15% ', 'VAL: $3381 ']
-    // ,['AI.: ', 'CHANGE: 8.17% ', 'VAL: $49.55 ']
-    // ,['FATBB.: ', 'CHANGE: 99.23% ', 'VAL: $12.94 ']
-    // ,['ZG.: ', 'CHANGE: -22.95% ', 'VAL: $65.74 ']
-    // ,['CL=F.: ', 'CHANGE: -4.54% ', 'VAL: $80.11 ']
-    // ,['FIGS.: ', 'CHANGE: 23.2% ', 'VAL: $42.18 ']]
-    //this.setState({tickerTrends}, this.goToDashboard)
+    let tickerTrends =  
+      [['NVDA.: ', 'CHANGE: 14.95% ', 'VAL: $302.45 '],
+      ['MRNA.: ', 'CHANGE: -18.98% ', 'VAL: $279.71 '],
+      ['PENN.: ', 'CHANGE: -21.9% ', 'VAL: $56.7 '],
+      ['SAVA.: ', 'CHANGE: 48.57% ', 'VAL: $81.18 '],
+      ['QCOM.: ', 'CHANGE: 12.92% ', 'VAL: $156.98 '],
+      ['T.: ', 'CHANGE: -2.24% ', 'VAL: $24.63 '] ,
+      ['NKLA.: ', 'CHANGE: 18.17% ', 'VAL: $14.86 '],
+      ['LSPD.TO.: ', 'CHANGE: -28.41% ', 'VAL: $87.93 '],
+      ['DKNG.: ', 'CHANGE: -5.96% ', 'VAL: $44.07 '],
+      ['PATH.: ', 'CHANGE: 7.38% ', 'VAL: $58.4 '],
+      ['COST.: ', 'CHANGE: 3.14% ', 'VAL: $518.52 '],
+      ['LSPD.: ', 'CHANGE: -28.74% ', 'VAL: $70.45 '],
+      ['VZ.: ', 'CHANGE: -2.93% ', 'VAL: $51.36 '],
+      ['NRDS.: ', 'CHANGE: 57.78% ', 'VAL: $27.5 '],
+      ['AMZN.: ', 'CHANGE: 3.23% ', 'VAL: $3483.66 '],
+      ['ROKU.: ', 'CHANGE: -8.5% ', 'VAL: $287.59 '],
+      ['TTD.: ', 'CHANGE: -5.31% ', 'VAL: $72.09 '],
+      ['ETSY.: ', 'CHANGE: 15.41% ', 'VAL: $275.33 '],
+      ['EVAX.: ', 'CHANGE: 144.46% ', 'VAL: $16.4 '],
+      ['BGFV.: ', 'CHANGE: 8.13% ', 'VAL: $33.57 ']];
+    this.props.tickerTrends = tickerTrends;
+    return this.getStockData();
   }
 
   goToHome() {
@@ -247,7 +300,8 @@ class App extends Component {
 
   goToDashboard() {
     const currPage = 'dashboard';
-    this.setState({currPage})
+    const newStock = '';
+    this.setState({currPage, newStock})
   }
 
   render() {
@@ -269,7 +323,7 @@ class App extends Component {
         <DashboardHeader 
         key="0"
         user={this.state.username}
-        tickerData={this.state.tickerTrends}
+        tickerData={this.props.tickerTrends}
         inputStock={this.inputStock}
         addNewStock={this.addNewStock}
         />
@@ -279,9 +333,10 @@ class App extends Component {
         className="dataContainer" 
         key="1" 
         getStockData={this.getStockData}
-        stockDataObjs={this.state.stockDataObjs}
-        stockGraphObjs={this.state.stockGraphObjs}
-        data={this.state.sessionData}/>
+        deleteStock={this.deleteStock}
+        stockDataObjs={this.props.stockDataObjs}
+        stockGraphObjs={this.props.stockGraphObjs}
+        data={this.props.sessionData}/>
       )
       }
     return (

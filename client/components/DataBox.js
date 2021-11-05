@@ -21,7 +21,7 @@ class DataBox extends Component {
 
     return (
       <div className='dataBox'>
-        <h1> {`${cardTitle}`}</h1>
+        <button id="deleteStockButton" onClick={() => this.props.deleteStock(this.props.stockData.symbol)}> <h1> {`${cardTitle}`}</h1></button>
         <h2>{`$${this.props.stockData.ask}`} </h2> 
         <div> {`Fifty day average: `}{`$${(Math.round((this.props.stockData.fiftyDayAverage + Number.EPSILON) * 100)) / 100}`}</div> 
         <div> {`Fifty two week high: `}{`$${(Math.round((this.props.stockData.fiftyTwoWeekHigh + Number.EPSILON) * 100)) / 100}`}</div> 

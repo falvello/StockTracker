@@ -36,6 +36,39 @@ app.get('/verify', (req, res) => {
   }
 });
 
+app.get('/addstock', (req, res) => {
+  const stock = req.query.stock;
+  const username = req.query.username;
+  // With JSON file database
+  const userData = db.addStockAndReturn(username, stock);
+  if (userData) {
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.status(200).json(userData);
+  }
+  else {
+    const userData = db.addUser(username, password)
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.status(200).json(userData);
+  }
+  
+
+})
+
+app.post('/deletestock', (req, res) => {
+  const symbol = req.query.symbol;
+  const username = req.query.username;
+  // With JSON file database
+  const userData = db.deleteStockAndReturn(username, symbol);
+  if (userData) {
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.status(200).json(userData);
+  }
+  else {
+    return res.status(404).send("Stock symbol not found");
+  }
+})
+
+
 if (process.env.NODE_ENV === 'production') {
   // statically serve everything in the build folder on the route '/build'
   app.use('/build', express.static(path.join(__dirname, '../build')));

@@ -12,6 +12,7 @@ class DataBoxScroll extends Component {
     for (let i = 0; i < this.props.stockData.length; i++) {
       dataBoxes.push(
         <DataBox 
+        deleteStock={this.props.deleteStock}
         stockData={this.props.stockData[i]} 
         stockGraph={this.props.stockGraphs[i]} 
         key={i}/>

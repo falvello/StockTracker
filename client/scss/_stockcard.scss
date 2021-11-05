@@ -1,0 +1,98 @@
+@import './variables.scss';
+
+.dataBoxScroll {
+  border: none;
+  height: 72vh;
+  width: 90vw !important;
+  background-color: transparentize($color-complement-light, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: auto;
+  border-radius: $radius-fields;
+}
+
+.dataBoxScroll::-webkit-scrollbar{
+  width: 0;
+}      
+
+
+button {
+  &:hover {
+    color: $color-delete !important;
+  }
+}
+#deleteStockButton {
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px !important;
+  font-weight: normal !important;
+  color: $color-complement-light;
+  line-height: 30px;
+  background-color: transparent;
+  border: 0px;
+}
+
+.dataBox {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 17px !important;
+  font-weight: 60;
+  line-height: 23px;
+  height: $data-box-height;
+  min-width: $data-box-width;
+  padding: 20px;
+  margin: 10px;
+  background: white;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-radius: $radius-fields;
+  text-align: center;
+
+  &:hover {
+    background-color: darken(white, 15);
+  }
+}
+
+
+.lineGraph {
+  font-family: 'Roboto', 'Thin 100', sans-serif;
+  font-size: 20px !important;
+  font-weight: 60;
+  height: 250px;
+  min-width: 350px;
+  padding: 10px;
+  margin: 10px;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    background-color: darken(white, 15);
+  }
+}
+
+.leftScroll {
+  background-color: transparentize($color-complement-light, 0.7);
+  font-size: 30px !important;
+  height: 72vh;
+  min-width: 3vw;
+  //padding-left: 5px;
+  color: $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rightScroll {
+  background-color: transparentize($color-complement-light, 0.7);
+  font-size: 30px !important;
+  height: 72vh;
+  min-width: 3vw;
+  //padding-left: 5px;
+  //padding-right: 5px;
+  color: $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
